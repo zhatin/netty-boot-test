@@ -25,6 +25,8 @@ public class TCPChannelInitializer extends ChannelInitializer<SocketChannel> {
 
 	private static final StringDecoder DECODER = new StringDecoder();
 	private static final StringEncoder ENCODER = new StringEncoder();
+	
+	private static final int ALL_IDLE_SECONDS = 5;
 
 	@Autowired
 	@Qualifier("tcpServerHandler")
@@ -39,7 +41,7 @@ public class TCPChannelInitializer extends ChannelInitializer<SocketChannel> {
 		 * encoder and decoder are static as these are sharable
 		 * pipeline.addLast(DECODER); pipeline.addLast(ENCODER);
 		 */
-		pipeline.addLast(new IdleStateHandler(5, 5, 5, TimeUnit.SECONDS) {
+		pipeline.addLast(new IdleStateHandler(0, 0, ALL_IDLE_SECONDS, TimeUnit.SECONDS) {
 			@Override
 			protected void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) throws Exception {
 				if (evt.state() == IdleState.ALL_IDLE) {
