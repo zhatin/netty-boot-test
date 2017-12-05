@@ -76,6 +76,7 @@ public class Application {
 		ChannelOption option : keySet) {
 			b.option(option, tcpChannelOptions.get(option));
 		}
+		b.childOption(ChannelOption.SO_KEEPALIVE, keepAlive);
 		return b;
 	}
 
@@ -86,7 +87,7 @@ public class Application {
 	@Bean(name = "tcpChannelOptions")
 	public Map<ChannelOption<?>, Object> tcpChannelOptions() {
 		Map<ChannelOption<?>, Object> options = new HashMap<ChannelOption<?>, Object>();
-		options.put(ChannelOption.SO_KEEPALIVE, keepAlive);
+		//options.put(ChannelOption.SO_KEEPALIVE, keepAlive);
 		options.put(ChannelOption.SO_BACKLOG, backlog);
 		return options;
 	}
