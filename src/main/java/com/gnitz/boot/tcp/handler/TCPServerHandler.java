@@ -24,7 +24,9 @@ public class TCPServerHandler extends ChannelInboundHandlerAdapter {
 	private ChannelRepository channelRepository;
 
 	private static Logger logger = Logger.getLogger(TCPServerHandler.class.getName());
-
+	
+	private byte[] msgSucceed = { (byte) 0xEE, (byte) 0x60, (byte) 0xFF, (byte) 0xFC, (byte) 0xFF, (byte) 0xFF };
+	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		Assert.notNull(this.channelRepository,
@@ -64,7 +66,7 @@ public class TCPServerHandler extends ChannelInboundHandlerAdapter {
 			byteBuf.readBytes(hexByte);
 			String hexStr = Hex.encodeHexString(hexByte).toUpperCase();
 			logger.debug("Received Response: " + hexStr);
-			ctx.writeAndFlush(Unpooled.wrappedBuffer(hexByte));
+			ctx.writeAndFlush(Unpooled.wrappedBuffer(msgSucceed));
 		}
 
 		byteBuf.release();
